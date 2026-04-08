@@ -3,19 +3,15 @@ import math
 import time
 import datetime
 import os
-
 root = tk.Tk()
 root.title("Focus Bloom")
 root.geometry("520x860")
 root.resizable(False, False)
-
-# ---------------- STATE ----------------
+# STATE 
 work_time = 1500
 break_time = 300
-
 total_cycles = 1
 current_cycle = 1
-
 mode = "Work"
 running = False
 start_time = 0
