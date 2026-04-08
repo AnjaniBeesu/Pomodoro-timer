@@ -5,7 +5,7 @@ print("2. 50 min work / 10 min break")
 print("3. 100 min work / 20 min break")
 choice = input("Choose option (1/2/3): ")
 if choice == "1":
-    work = 25   # TEMP seconds
+    work = 25  
     brk = 5
 elif choice == "2":
     work = 50
@@ -30,11 +30,8 @@ def countdown(timer, label):
 for i in range(1, cycles + 1):
     print(f"\nCycle {i} - Work")
     countdown(work, "Work")
-
     if i != cycles:
         print("Break time")
         countdown(brk, "Break")
-
 print("\nAll cycles complete!")
-
 input("Press Enter to exit...")
