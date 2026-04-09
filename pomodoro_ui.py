@@ -34,10 +34,8 @@ def save_streak():
 def update_streak():
     global streak, last_completed_date
     today = str(datetime.date.today())
-
     if last_completed_date == today:
         return
-
     if last_completed_date:
         last_date = datetime.datetime.strptime(last_completed_date, "%Y-%m-%d").date()
         if (datetime.date.today() - last_date).days == 1:
@@ -46,12 +44,10 @@ def update_streak():
             streak = 1
     else:
         streak = 1
-
     last_completed_date = today
     save_streak()
     streak_label.config(text=f"🔥 Streak: {streak}")
-
-# ---------------- COLORS ----------------
+#  COLORS
 def get_colors():
     if dark_mode:
         return {
@@ -71,8 +67,7 @@ def get_colors():
             "btn": "#d6a75f",
             "btn_hover": "#e0b97a"
         }
-
-# ---------------- SOUND ----------------
+# SOUND
 def play_tick():
     try:
         import winsound
