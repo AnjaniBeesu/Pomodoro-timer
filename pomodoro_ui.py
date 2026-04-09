@@ -303,14 +303,11 @@ def apply_theme():
                         fg="white",
                         activebackground=colors["btn_hover"]
                     )
-
-# ---------------- INIT ----------------
+# INIT 
 load_streak()
 streak_label.config(text=f"🔥 Streak: {streak}")
-
 apply_theme()
 update_labels()
 draw_circle(0)
 update_loop()
-
 root.mainloop()
