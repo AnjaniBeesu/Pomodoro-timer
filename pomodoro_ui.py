@@ -15,14 +15,11 @@ current_cycle = 1
 mode = "Work"
 running = False
 start_time = 0
-
 dark_mode = True
 last_segment = -1
-
 streak = 0
 last_completed_date = None
-
-# ---------------- STREAK FILE ----------------
+#  STREAK FILE 
 def load_streak():
     global streak, last_completed_date
     if os.path.exists("streak.txt"):
@@ -31,14 +28,11 @@ def load_streak():
             if len(data) == 2:
                 streak = int(data[0])
                 last_completed_date = data[1]
-
 def save_streak():
     with open("streak.txt", "w") as f:
         f.write(f"{streak},{last_completed_date}")
-
 def update_streak():
     global streak, last_completed_date
-
     today = str(datetime.date.today())
 
     if last_completed_date == today:
