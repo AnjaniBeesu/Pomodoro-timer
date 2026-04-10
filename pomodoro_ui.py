@@ -30,6 +30,7 @@ def load_streak():
                 last_completed_date = data[1]
 def save_streak():
     with open("streak.txt", "w") as f:
+    
         f.write(f"{streak},{last_completed_date}")
 def update_streak():
     global streak, last_completed_date
@@ -74,90 +75,66 @@ def play_tick():
         winsound.Beep(800, 40)
     except:
         pass
-
-# ---------------- UI ----------------
+# UI
 main = tk.Frame(root)
 main.pack(fill="both", expand=True)
-
 title = tk.Label(main, font=("Segoe UI", 14))
 title.pack(pady=10)
-
 mode_label = tk.Label(main, font=("Segoe UI", 12, "bold"))
 mode_label.pack()
-
 streak_label = tk.Label(main, font=("Segoe UI", 11))
 streak_label.pack()
-
 canvas = tk.Canvas(main, width=340, height=340, highlightthickness=0)
 canvas.pack(pady=20)
-
 time_label = tk.Label(main, font=("Segoe UI", 34, "bold"))
 time_label.pack()
-
 status_label = tk.Label(main)
 status_label.pack(pady=5)
-
-# ---------------- DRAW ----------------
+#DRAW
 def draw_circle(progress):
     global last_segment
     colors = get_colors()
-
     canvas.delete("all")
     canvas.config(bg=colors["bg"])
-
     cx, cy = 170, 170
     radius = 130
     segments = 30
     filled = int(progress * segments)
-
     if filled != last_segment:
         if last_segment != -1:
             play_tick()
         last_segment = filled
-
     for i in range(segments):
         angle = (360 / segments) * i
         rad = math.radians(angle)
-
         x1 = cx + math.cos(rad) * (radius - 10)
         y1 = cy + math.sin(rad) * (radius - 10)
         x2 = cx + math.cos(rad) * radius
         y2 = cy + math.sin(rad) * radius
-
         color = colors["accent"] if i < filled else colors["muted"]
         canvas.create_line(x1, y1, x2, y2, fill=color, width=4)
-
     if dark_mode:
         canvas.create_text(cx, cy, text="🌙", font=("Segoe UI Emoji", 44), fill="white")
     else:
         canvas.create_text(cx, cy, text="☀", font=("Segoe UI Emoji", 44), fill="#d6a75f")
-
-# ---------------- TIMER ----------------
+# TIMER
 def update_loop():
     if running:
         elapsed = time.time() - start_time
         total = work_time if mode == "Work" else break_time
-
         progress = min(elapsed / total, 1)
         remaining = max(total - int(elapsed), 0)
-
         mins = remaining // 60
         secs = remaining % 60
-
         time_label.config(text=f"{mins:02d}:{secs:02d}")
         draw_circle(progress)
-
         if remaining <= 0:
             handle_phase_change()
-
     root.after(50, update_loop)
-
-# ---------------- FLOW ----------------
+#FLOW
 def handle_phase_change():
     global mode, current_cycle, running, start_time, last_segment
-
     last_segment = -1
-
     if mode == "Work":
         mode = "Break"
         start_time = time.time()
@@ -174,18 +151,15 @@ def handle_phase_change():
             mode_label.config(text="Completed")
             status_label.config(text="All cycles finished")
             time_label.config(text="00:00")
-
 def update_labels():
     colors = get_colors()
     title.config(text=f"Focus period ({current_cycle} of {total_cycles})")
     mode_label.config(text=f"{mode} Time", fg=colors["accent"])
-
     if mode == "Work":
         status_label.config(text="Up next: Break")
     else:
         status_label.config(text="Up next: Work")
-
-# ---------------- CONTROLS ----------------
+# CONTROLS
 def start():
     global running, start_time
     if not running:
@@ -200,7 +174,6 @@ def reset():
     last_segment = -1
     update_labels()
     time_label.config(text=f"{work_time//60:02d}:00")
-
 def set_cycles(event=None):
     global total_cycles, current_cycle
     try:
@@ -211,7 +184,6 @@ def set_cycles(event=None):
             update_labels()
     except:
         pass
-
 def set_time(w, b):
     global work_time, break_time, running, last_segment
     running = False
@@ -219,13 +191,11 @@ def set_time(w, b):
     break_time = b
     last_segment = -1
     time_label.config(text=f"{w//60:02d}:00")
-
 def toggle_mode():
     global dark_mode
     dark_mode = not dark_mode
     apply_theme()
     draw_circle(0)
-
 # ---------------- BUTTON STYLE ----------------
 def styled_btn(parent, text, cmd):
     btn = tk.Button(parent, text=text, command=cmd,
