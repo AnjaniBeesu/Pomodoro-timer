@@ -165,7 +165,6 @@ def start():
     if not running:
         running = True
         start_time = time.time()
-
 def reset():
     global running, current_cycle, mode, last_segment
     running = False
@@ -196,60 +195,44 @@ def toggle_mode():
     dark_mode = not dark_mode
     apply_theme()
     draw_circle(0)
-# ---------------- BUTTON STYLE ----------------
+#BUTTON STYLE 
 def styled_btn(parent, text, cmd):
     btn = tk.Button(parent, text=text, command=cmd,
                     relief="flat", padx=14, pady=8)
-
     def on_enter(e):
         colors = get_colors()
         btn.config(bg=colors["btn_hover"], relief="raised")
-
     def on_leave(e):
         colors = get_colors()
         btn.config(bg=colors["btn"], relief="flat")
-
     btn.bind("<Enter>", on_enter)
     btn.bind("<Leave>", on_leave)
     return btn
-
-# ---------------- BUTTONS ----------------
+# BUTTONS
 btn_frame = tk.Frame(main)
 btn_frame.pack(pady=10)
-
 styled_btn(btn_frame, "Start", start).pack(side="left", padx=6)
 styled_btn(btn_frame, "Reset", reset).pack(side="left", padx=6)
-
 preset_frame = tk.Frame(main)
 preset_frame.pack()
-
 styled_btn(preset_frame, "25 / 5", lambda: set_time(1500,300)).pack(side="left", padx=5)
 styled_btn(preset_frame, "50 / 10", lambda: set_time(3000,600)).pack(side="left", padx=5)
 styled_btn(preset_frame, "100 / 20", lambda: set_time(6000,1200)).pack(side="left", padx=5)
-
 cycle_frame = tk.Frame(main)
 cycle_frame.pack(pady=10)
-
 tk.Label(cycle_frame, text="Cycles:").pack(side="left")
-
 cycle_input = tk.Entry(cycle_frame, width=5)
 cycle_input.pack(side="left", padx=5)
 cycle_input.insert(0, "1")
-
 cycle_input.bind("<Return>", set_cycles)
-
 styled_btn(cycle_frame, "Apply", set_cycles).pack(side="left")
-
 toggle_btn = tk.Button(main, command=toggle_mode)
 toggle_btn.pack(pady=20)
-
-# ---------------- THEME ----------------
+# THEME
 def apply_theme():
     colors = get_colors()
-
     root.config(bg=colors["bg"])
     main.config(bg=colors["bg"])
-
     title.config(bg=colors["bg"], fg=colors["fg"])
     mode_label.config(bg=colors["bg"], fg=colors["accent"])
     time_label.config(bg=colors["bg"], fg=colors["fg"])
